@@ -7,6 +7,10 @@ const Container = styled.div`
   
   background-color: #f2f2f2;
 
+  overflow-y: scroll;
+
+  margin-bottom: 70px;
+
   .text{
     font-family: 'Lexend Deca';
     font-size: 23px;

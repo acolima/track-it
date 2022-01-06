@@ -1,8 +1,8 @@
-import { useState, useContext } from "react"
+import { Content, MyHabits, AddHabit, CreateHabit, Input, WeekDay, ButtonSaveHabit, ButtonCancel, HabitsList, Habit} from './style'
+import { useState, useContext, useEffect } from "react"
 import { Container } from "../AppPage"
 import Header from "../Header"
 import Menu from "../Menu"
-import { Content, MyHabits, AddHabit, Habit, Input, WeekDay, ButtonSaveHabit, ButtonCancel} from './style'
 import TokenContext from "../../contexts/TokenContext"
 import axios from "axios"
 
@@ -11,7 +11,11 @@ import Loader from "react-loader-spinner";
 
 function Habits(){
   const [addHabit, setAddHabit] = useState(false)
-  const [disabled, setDisabled] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [buttonDisabled, setButtonDisabled] = useState(true)
+  const [habits, setHabits] = useState([])
+  const [name, setName] = useState('')
+  
   const [weekdays, setWeekdays] = useState([
     {dayId: 0, dayName: 'D', selected: false},
     {dayId: 1, dayName: 'S', selected: false},
@@ -22,14 +26,26 @@ function Habits(){
     {dayId: 6, dayName: 'S', selected: false},
   ])
 
-  const [name, setName] = useState('')
   const {token} = useContext(TokenContext)
 
-  function handleAddClick(){
+  useEffect(() => {
+    renderPage()
+  }, [])
+
+  function renderPage(){
+    const promise = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits`,
+      {headers: {Authorization: `Bearer ${token}`}}
+    )
+
+    promise.then(response => setHabits(response.data))
+  }
+
+  function handleAddHabit(){
     setAddHabit(true)
   }
 
   function handleSelectDay(id){
+    setButtonDisabled(false)
     const selectedDays = [...weekdays]
 
     const day = weekdays.find((day) => day.dayId === id)
@@ -38,25 +54,35 @@ function Habits(){
   }
 
   function handleSaveHabit(){
-    setDisabled(true)
+    setLoading(true)
+    
     const days = weekdays
-      .filter((day) => day.selected === true)
-      .map(day => day.dayId)
-    
-    console.log(days)
-    
+    .filter((day) => day.selected === true)
+    .map(day => day.dayId)
+        
     const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits`, 
       {name, days}, {headers: {'Authorization': `Bearer ${token}`}}
     )
 
-    promise.then(response => {console.log(response.data); setAddHabit(false)})
-    promise.catch(error => {console.log(error.response.data); setDisabled(false)})
+    promise.then(response => restore(response))
+    promise.catch(error => {
+      if(name === '') alert("O campo 'nome' não pode ser vazio")
+      setLoading(false)
+    })
   }
 
-  function cancelAddHabit(){
+  function restore(response){
+    console.log(response.data)
     setAddHabit(false)
+    setName('')
+    setLoading(false)
+    setHabits([...habits])
+    renderPage()
+
+    const defaultWeekdays = [...weekdays]
+    weekdays.map(day => day.selected = false)
+    setWeekdays([...defaultWeekdays])
   }
-  
 
   return (
     <Container>
@@ -64,36 +90,60 @@ function Habits(){
       <Content>
         <MyHabits>
           <h2 className='text'>Meus hábitos</h2>
-          <AddHabit onClick={handleAddClick}>+</AddHabit>
+          <AddHabit onClick={handleAddHabit}>+</AddHabit>
         </MyHabits>
         {addHabit && 
-          <Habit>
+          <CreateHabit>
             <Input 
               type="text" 
               placeholder="nome do hábito"
               onChange={e => setName(e.target.value)}
               value={name}
-              disabled={disabled}
+              loadingInput={loading}
             />
             <div className='days'>
               {weekdays.map(day => (
-                <WeekDay selected={day.selected} onClick={() => handleSelectDay(day.dayId)} key={day.dayId}>
+                <WeekDay selected={day.selected} onClick={() => handleSelectDay(day.dayId)} key={day.dayId} loadingButton={loading}>
                   {day.dayName}
                 </WeekDay>
               ))}
             </div>
             <div className='buttons'>
-              <ButtonCancel onClick={cancelAddHabit} disabled={disabled}>Cancelar</ButtonCancel>
-              <ButtonSaveHabit onClick={handleSaveHabit} disabled={disabled}>
-                {disabled ?
+              <ButtonCancel onClick={() => setAddHabit(false)} loadingButton={loading}>Cancelar</ButtonCancel>
+              <ButtonSaveHabit 
+                onClick={handleSaveHabit} 
+                loadingButton={loading}
+                disabled={buttonDisabled}>
+                {loading ?
                   <Loader type="ThreeDots" color="#FFF" height="30" width="30" /> :
                   'Salvar'
                 }
               </ButtonSaveHabit>
             </div>
-          </Habit>
+          </CreateHabit>
         }
-        <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
+        
+        {((habits.length === 0) ?
+          <p className='emptyList'>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>:
+          (<HabitsList>
+            {habits.map(habit => (
+              <Habit key={habit.id}>
+                <p className="habitName">{habit.name}</p>
+                <div>
+                  {weekdays.map(day =>
+                    <WeekDay 
+                      key={day.dayId}  
+                      selected={(habit.days.includes(day.dayId))}
+                    >
+                      {day.dayName}
+                    </WeekDay>
+                  )}  
+                </div>
+              </Habit>
+            ))}
+          </HabitsList>
+          )
+        )}
       </Content>
       <Menu/>
     </Container>

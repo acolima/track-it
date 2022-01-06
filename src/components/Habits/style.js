@@ -4,7 +4,7 @@ import styled from "styled-components"
 const Content = styled.div`
   padding-top: 70px;
 
-  p{
+  .emptyList{
     font-family: 'Lexend Deca';
     font-size: 18px;
     font-weight: 400;
@@ -13,7 +13,6 @@ const Content = styled.div`
 
     padding: 30px 20px 0 17px;
   }
-
 `
 
 const MyHabits = styled.div`
@@ -38,7 +37,7 @@ const AddHabit = styled.button`
   background-color: #52B6FF;
 `
 
-const Habit = styled.div`
+const CreateHabit = styled.div`
   height: 180px;
   width: 340px;
   border-radius: 5px;
@@ -79,8 +78,8 @@ const Input = styled.input`
   padding-left: 11px;
   border: 1px solid #D4D4D4;
 
-  background-color: ${(props) => props.disabled && '#f2f2f2'};
-  ${(props) => props.disabled && 'pointer-events: none;'}
+  background-color: ${(props) => props.loading && '#f2f2f2'};
+  ${(props) => props.loading && 'pointer-events: none;'}
 
 
   ::placeholder{
@@ -92,7 +91,7 @@ const Input = styled.input`
   }
 `
 
-const WeekDay = styled.div`
+const WeekDay = styled.button`
   height: 30px;
   width: 30px;
 
@@ -107,7 +106,7 @@ const WeekDay = styled.div`
   color: ${props => props.selected ? '#fff' : '#DBDBDB'};
 
   ${props => props.selected && 'background-color: #CFCFCF;'}
-
+  ${(props) => props.loading && 'pointer-events: none;'}
 `
 
 const ButtonSaveHabit = styled.button`
@@ -124,8 +123,8 @@ const ButtonSaveHabit = styled.button`
   text-align: center;
   color: #fff;
 
-  ${(props) => props.disabled && 'opacity: 0.7;'}
-  ${(props) => props.disabled && 'pointer-events: none;'}
+  ${(props) => (props.teste || props.disabled) && 'opacity: 0.7;'}
+  ${(props) => (props.teste || props.disabled) && 'pointer-events: none;'}
 `
 
 const ButtonCancel = styled.button`
@@ -135,7 +134,39 @@ const ButtonCancel = styled.button`
   line-height: 20px;
   color: #52B6FF;
 
-  ${(props) => props.disabled && 'pointer-events: none;'}
+  ${(props) => props.teste && 'pointer-events: none;'}
+`
+
+const HabitsList = styled.div`
+  padding-top: 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
+const Habit = styled.div`
+  width: 340px;
+  
+  border-radius: 5px;
+  margin-bottom: 10px;
+  padding: 14px;
+  
+  background-color: #fff;
+
+  div{
+    display: flex;
+    gap: 4px;
+
+  }
+
+  .habitName{
+    font-family: 'Lexend Deca';
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 25px;
+    color: #666;
+  }
 
 `
 
@@ -143,9 +174,11 @@ export {
   Content,
   MyHabits,
   AddHabit,
-  Habit,
+  CreateHabit,
   Input,
   WeekDay,
   ButtonSaveHabit, 
-  ButtonCancel
+  ButtonCancel,
+  HabitsList,
+  Habit
 }

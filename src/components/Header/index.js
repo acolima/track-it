@@ -1,18 +1,15 @@
 import styled from 'styled-components'
 
-// import UserContext from '../../contexts/UserContext'
-// import { useContext } from 'react'
-
-import logo from '../../assets/logo.png'
-
+import UserContext from '../../contexts/UserContext'
+import { useContext } from 'react'
 
 function Header(){
-  // const { user } = useContext(UserContext)
+  const { user } = useContext(UserContext)
 
   return (
     <Container>
         <h1>Track It</h1>
-        <img src={logo} alt="user profile pic" />
+        <img src={user.image} alt="user profile pic" />
     </Container>
   )
 }
