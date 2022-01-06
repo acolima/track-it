@@ -1,8 +1,10 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import logo from '../../assets/logo.png'
-import { Button, Container, Input, StyledLink } from '../Page'
+import { Container, Form, Input, Button, StyledLink } from '../FormPage'
+
+import UserContext from '../../contexts/UserContext'
 
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Loader from "react-loader-spinner";
@@ -12,9 +14,10 @@ function LoginPage(){
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [token, setToken] = useState("")
-  const [disabledForm, setDisabled] = useState(false)
+  const [disabled, setDisabled] = useState(false)
   let navigate = useNavigate()
 
+  const {setUser} = useContext(UserContext)
 
   function handleSubmit(e){
     e.preventDefault()
@@ -29,7 +32,7 @@ function LoginPage(){
   }
 
   function handleLogin(response){
-    console.log(response.data.token)
+    setUser(response.data)
     setToken(response.data.token)
     navigate('/hoje')
   }
@@ -42,30 +45,28 @@ function LoginPage(){
   return(
     <Container>
       <img src={logo} alt="logo" />
-      <form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit}>
         <Input 
-          // {disabledForm && "disabled"}
           type='email' 
           placeholder='email' 
           onChange={(e) => setEmail(e.target.value)}
           value={email}
-          disabledForm={disabledForm}
-        />
+          disabledForm={disabled}
+          />
         <Input 
           type='password' 
           placeholder='senha'
           onChange={(e) => setPassword(e.target.value)}
           value={password} 
-          disabledForm={disabledForm}
- 
-        />
-        <Button type='submit'>
-          {disabledForm ?
+          disabledForm={disabled}
+          />
+        <Button type='submit' disabledForm={disabled}>
+          {disabled ?
             <Loader type="ThreeDots" color="#FFF" height="50" width="50" /> :
             "Entrar"
           }
         </Button>
-      </form>
+      </Form>
       <StyledLink to={'/cadastro'}>Não tem uma conta? Cadastre-se!</StyledLink>
     </Container>
   )

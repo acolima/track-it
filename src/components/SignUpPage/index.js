@@ -4,14 +4,14 @@ import Loader from 'react-loader-spinner'
 import { useNavigate } from 'react-router-dom'
 import logo from '../../assets/logo.png'
 
-import { Button, Container, Input, StyledLink } from '../Page'
+import { Container, Form, Input, Button, StyledLink } from '../FormPage'
 
 function SignUpPage(){
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [name, setName] = useState("")
   const [image, setImage] = useState("")
-  const [disabledForm, setDisabled] = useState(false)
+  const [disabled, setDisabled] = useState(false)
   let navigate = useNavigate()
 
   function handleSubmit(e){
@@ -38,46 +38,45 @@ function SignUpPage(){
   return(
     <Container>
       <img src={logo} alt="logo" />
-      <form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit}>
         <Input 
-          // {disabledForm && "disabled"}
           type='email' 
           placeholder='email' 
           onChange={(e) => setEmail(e.target.value)}
           value={email}
-          disabledForm={disabledForm}
-        />
+          disabledForm={disabled}
+          />
         <Input 
           type='password' 
           placeholder='senha'
           onChange={(e) => setPassword(e.target.value)}
           value={password} 
-          disabledForm={disabledForm}
- 
-        />
+          disabledForm={disabled}
+          
+          />
         <Input 
           type='text' 
           placeholder='nome'
           onChange={(e) => setName(e.target.value)}
           value={name} 
-          disabledForm={disabledForm}
- 
-        />
+          disabledForm={disabled}
+          
+          />
         <Input 
           type='text' 
           placeholder='foto'
           onChange={(e) => setImage(e.target.value)}
           value={image} 
-          disabledForm={disabledForm}
- 
-        />
-        <Button type='submit'>
-          {disabledForm ?
+          disabledForm={disabled}
+          
+          />
+        <Button type='submit' disabledForm={disabled}>
+          {disabled ?
             <Loader type="ThreeDots" color="#FFF" height="50" width="50" /> :
             "Cadastrar"
           }
         </Button>
-      </form>
+      </Form>
       <StyledLink to={'/'}>Já tem uma conta? Faça login!</StyledLink>
     </Container>
   )

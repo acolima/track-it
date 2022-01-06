@@ -2,54 +2,54 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 const Container = styled.div`
-  width: 375px;
-  height: 667px;
-
+  width: 100vw;
+  height: 100vh;
+  
   background-color: #fff;
-
+  
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 25px;
-
+  
   img{
     width: 180px;
     height: 178px;
-
+    
     margin: 68px 0 7px 0;
   }
+`
 
-  form{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-
-    width: 303px;
-  }
-
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  
+  width: 303px;
 `
 
 const Input = styled.input`
+  box-sizing: border-box;
+  
   width: 100%;
   height: 45px;
   
   border-radius: 5px;
   border: 1px solid #D4D4D4;
   padding: 11px;
-
+  
   background-color: ${(props) => props.disabledForm ? '#f2f2f2' : '#fff'};
-
-  box-sizing:border-box;
+  ${(props) => props.disabledForm && 'pointer-events: none;'}
 
   ::placeholder{
-    font-family: Lexend Deca;
+    font-family: 'Lexend Deca';
     font-size: 20px;
     font-weight: 400;
     line-height: 25px;
 
     cursor: text;
-  }
+  }  
 `
 
 const Button = styled.button`
@@ -58,7 +58,7 @@ const Button = styled.button`
   
   border-radius: 5px;
 
-  font-family: Lexend Deca;
+  font-family: 'Lexend Deca';
   font-size: 21px;
   font-weight: 400;
   line-height: 26px;
@@ -69,9 +69,12 @@ const Button = styled.button`
 
   cursor: pointer;
 
+  ${(props) => props.disabledForm && 'filter: brightness(80%)'};
+  ${(props) => props.disabledForm && 'pointer-events: none;'}
 `
+
 const StyledLink = styled(Link)`
-  font-family: Lexend Deca;
+  font-family: 'Lexend Deca';
   font-size: 14px;
   font-weight: 400;
   line-height: 17px;
@@ -84,8 +87,8 @@ const StyledLink = styled(Link)`
 
 export {
   Container,
+  Form,
   Input,
   Button,
-  StyledLink
+  StyledLink, 
 }
-
