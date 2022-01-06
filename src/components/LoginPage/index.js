@@ -5,6 +5,7 @@ import logo from '../../assets/logo.png'
 import { Container, Form, Input, Button, StyledLink } from '../FormPage'
 
 import UserContext from '../../contexts/UserContext'
+import TokenContext from '../../contexts/TokenContext'
 
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Loader from "react-loader-spinner";
@@ -13,17 +14,15 @@ import Loader from "react-loader-spinner";
 function LoginPage(){
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [token, setToken] = useState("")
   const [disabled, setDisabled] = useState(false)
   let navigate = useNavigate()
-
+  
   const {setUser} = useContext(UserContext)
+  const {setToken} = useContext(TokenContext)
 
   function handleSubmit(e){
     e.preventDefault()
     setDisabled(true)
-
-    console.log(token)
 
     const promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login', { email, password})
 

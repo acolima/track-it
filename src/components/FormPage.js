@@ -69,7 +69,7 @@ const Button = styled.button`
 
   cursor: pointer;
 
-  ${(props) => props.disabledForm && 'filter: brightness(80%)'};
+  ${(props) => props.disabledForm && 'opacity: 0.7;'}
   ${(props) => props.disabledForm && 'pointer-events: none;'}
 `
 
