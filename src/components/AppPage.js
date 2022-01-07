@@ -17,15 +17,9 @@ const Container = styled.div`
     font-weight: 400;
     line-height: 29px;
     color: #126BA5;
-  }
 
-   /* .habitsProgress{
-    font-family: 'Lexend Deca';
-    font-size: 18px;
-    font-weight: 400;
-    line-height: 22px;
-    color: #BABABA;
-  } */
+    padding-top: 28px;
+  }
 `
 
 export{

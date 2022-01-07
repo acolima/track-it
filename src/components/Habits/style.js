@@ -20,7 +20,7 @@ const MyHabits = styled.div`
   align-items: center;
   justify-content: space-between;
 
-  padding: 28px 18px 0 17px;
+  padding: 0 18px 0 17px;
 `
 
 const AddHabit = styled.button`
