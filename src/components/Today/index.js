@@ -10,9 +10,14 @@ import checkImage from '../../assets/check.png'
 
 function Today(){
   const [todaysHabits, setTodaysHabits] = useState([])
+  let doneHabits = 0
+  let percentage = 0
   const weekdays = [
     'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'
   ]
+
+  doneHabits = (todaysHabits.filter(habit => habit.done === true)).length
+
 
   const {token} = useContext(TokenContext)
   const config = {headers: {'Authorization': `Bearer ${token}`}}
@@ -20,11 +25,13 @@ function Today(){
   useEffect(() => {
     renderPage()
   }, [])
-
+  
   function renderPage(){
     const promise = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today`, config)
-
-    promise.then(response => setTodaysHabits(response.data))
+    
+    promise.then(response => {
+      setTodaysHabits(response.data)
+    })
   }
 
   function handleCheckHabit(id, isDone){
@@ -39,12 +46,21 @@ function Today(){
     promise.catch(error => console.log(error.response.data))
   }
 
+  percentage = doneHabits*100/todaysHabits.length
+
   return (
     <Container>
       <Header/>
-      <Content>
-        <h2 className='text'>{weekdays[dayjs().day()-1]}, {dayjs().format('DD/MM')}</h2>
-        <p className='habitsProgress'>Nenhum hábito concluído ainda</p>
+      <Content progress={doneHabits}>
+        <div className='top'>
+          <h2 className='text'>{weekdays[dayjs().day()-1]}, {dayjs().format('DD/MM')}</h2>
+          <p className='habitsProgress'>
+            {doneHabits > 0 ? 
+              `${percentage}% dos hábitos concluídos`:
+              'Nenhum hábito concluído ainda'
+            }
+          </p>
+        </div>
         <HabitsList>
           {todaysHabits.map(habit => (
             <Habit key={habit.id}>
@@ -68,7 +84,7 @@ function Today(){
           ))}
         </HabitsList>
       </Content>
-      <Menu/>
+      <Menu percentage={percentage}/>
     </Container>
   )
 }

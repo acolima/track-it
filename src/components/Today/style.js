@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 const Content = styled.div`
-  padding: 70px 0 0 17px;
+  padding-top: 70px;
   margin-top: 28px;
 
   .habitsProgress{
@@ -9,7 +9,11 @@ const Content = styled.div`
     font-size: 18px;
     font-weight: 400;
     line-height: 22px;
-    color: #BABABA;
+    color: ${props => (props.progress > 0) ? '#8FC549': '#BABABA'};
+  }
+
+  .top{
+    padding-left: 17px;
   }
 `
 

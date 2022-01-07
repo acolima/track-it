@@ -13,7 +13,6 @@ function App() {
   const [user, setUser] = useState(null)
   const [token, setToken] = useState('')
   
-  console.log(token)
   return (
     <BrowserRouter>
       <UserContext.Provider value={{user, setUser}}>
