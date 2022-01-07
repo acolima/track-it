@@ -11,22 +11,23 @@ const Content = styled.div`
     line-height: 22px;
     color: #BABABA;
   }
+`
 
-  .habitName{
-    font-family: 'Lexend Deca';
-    font-size: 20px;
-    font-weight: 400;
-    line-height: 25px;
-    color: #666;
-    padding-bottom: 7px;
+const HabitInfos = styled.p`  
+  font-family: 'Lexend Deca';
+  font-weight: 400;
+  color: #666;
+  font-size: 20px;
+  line-height: 25px;
+  
+  .sequence{
+    font-size: 13px;
+    line-height: 16px;
   }
 
-  .habitInfo{
-    font-family: 'Lexend Deca';
-    font-size: 13px;
-    font-weight: 400;
-    line-height: 16px;
-    color: #666;
+  .number{
+    ${props => props.done && 'color: #8FC549;'}
+    ${props => props.highest && 'color: #8FC549;'}
 
   }
 `
@@ -49,5 +50,6 @@ const ButtonCheck = styled.button`
 
 export {
   Content,
+  HabitInfos,
   ButtonCheck
 }

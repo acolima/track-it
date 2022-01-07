@@ -1,5 +1,5 @@
 import { Container, HabitsList, Habit } from '../AppPage'
-import { ButtonCheck, Content } from './style'
+import { ButtonCheck, Content, HabitInfos } from './style'
 import Header from '../Header'
 import Menu from '../Menu'
 import dayjs from 'dayjs'
@@ -49,9 +49,17 @@ function Today(){
           {todaysHabits.map(habit => (
             <Habit key={habit.id}>
               <div>
-                <p className="habitName">{habit.name}</p>
-                <p className="habitInfo">Sequência atual: {habit.currentSequence} dias</p>
-                <p className="habitInfo">Seu recorde: {habit.highestSequence} dias</p>
+                <HabitInfos>{habit.name}</HabitInfos>
+                <HabitInfos done={habit.done}>
+                  <span className="sequence">Sequência atual: </span> 
+                  <span className="sequence number">{habit.currentSequence} dias</span>
+                </HabitInfos>
+                <HabitInfos 
+                  highest={habit.currentSequence === habit.highestSequence && habit.currentSequence !== 0}
+                >{/* arrumar isso pq tá muito feio assim*/}
+                  <span className="sequence">Seu recorde: </span>
+                  <span className="sequence number">{habit.highestSequence} dias</span>
+                </HabitInfos>
               </div>
               <ButtonCheck onClick={() => handleCheckHabit(habit.id, habit.done)} done={habit.done}>
                 <img src={checkImage} alt="check" />
