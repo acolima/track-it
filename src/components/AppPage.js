@@ -39,6 +39,10 @@ const Habit = styled.div`
 
   display: flex;
   justify-content: space-between;
+
+  div{
+    width: 243px;
+  }
 `
 
 export{

@@ -10,35 +10,33 @@ import checkImage from '../../assets/check.png'
 
 function Today(){
   const [todaysHabits, setTodaysHabits] = useState([])
-  const [check, setCheck] = useState(false)
   const weekdays = [
     'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'
   ]
-
-  console.log(todaysHabits)
 
   const {token} = useContext(TokenContext)
   const config = {headers: {'Authorization': `Bearer ${token}`}}
 
   useEffect(() => {
-    const promise = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today`, {headers: {'Authorization': `Bearer ${token}`}})
-
-    promise.then(response => setTodaysHabits(response.data))
+    renderPage()
   }, [])
 
-  function handleCheckHabit(id){
-    // muda o texto da API com uma variavel q depende de done
-    const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/check`, 
-    {headers: {'Authorization': `Bearer ${token}`}})
+  function renderPage(){
+    const promise = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today`, config)
+
+    promise.then(response => setTodaysHabits(response.data))
+  }
+
+  function handleCheckHabit(id, isDone){
+    let endpointAPI = ''
+
+    if(!isDone) endpointAPI = 'check'
+    else endpointAPI = 'uncheck'
+
+    const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/${endpointAPI}`, true, config)
     
-    promise.then(response => console.log(response.data))
+    promise.then(response => renderPage())
     promise.catch(error => console.log(error.response.data))
-    
-    const checkedHabits = [...todaysHabits]
-    
-    const habit = todaysHabits.find((habit) => habit.id === id)
-    habit.selected = !habit.selected
-    setTodaysHabits([...checkedHabits])
   }
 
   return (
@@ -55,7 +53,7 @@ function Today(){
                 <p className="habitInfo">Sequência atual: {habit.currentSequence} dias</p>
                 <p className="habitInfo">Seu recorde: {habit.highestSequence} dias</p>
               </div>
-              <ButtonCheck onClick={() => handleCheckHabit(habit.id)} check={habit.selected}>
+              <ButtonCheck onClick={() => handleCheckHabit(habit.id, habit.done)} done={habit.done}>
                 <img src={checkImage} alt="check" />
               </ButtonCheck>
             </Habit>

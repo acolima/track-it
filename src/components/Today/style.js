@@ -44,7 +44,7 @@ const ButtonCheck = styled.button`
   align-items: center;
   justify-content: center;
   
-  background: ${props => props.check ? '#8FC549' : '#EBEBEB'};
+  background: ${props => (props.done) ? '#8FC549' : '#EBEBEB'};
 `
 
 export {
