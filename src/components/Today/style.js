@@ -2,6 +2,7 @@ import styled from 'styled-components'
 
 const Content = styled.div`
   padding: 70px 0 0 17px;
+  margin-top: 28px;
 
   .habitsProgress{
     font-family: 'Lexend Deca';
@@ -10,27 +11,6 @@ const Content = styled.div`
     line-height: 22px;
     color: #BABABA;
   }
-`
-
-const HabitsList = styled.div`
-  padding-top: 20px;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`
-
-const Habit = styled.div`
-  width: 340px;
-  
-  margin-bottom: 10px;
-  border-radius: 5px;
-  padding: 14px;
-
-  background: #fff;
-
-  display: flex;
-  justify-content: space-between;
 
   .habitName{
     font-family: 'Lexend Deca';
@@ -49,7 +29,6 @@ const Habit = styled.div`
     color: #666;
 
   }
-
 `
 
 const ButtonCheck = styled.button`
@@ -70,7 +49,5 @@ const ButtonCheck = styled.button`
 
 export {
   Content,
-  HabitsList,
-  Habit,
   ButtonCheck
 }

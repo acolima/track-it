@@ -1,5 +1,5 @@
-import { Container } from '../AppPage'
-import { ButtonCheck, Content, Habit, HabitsList } from './style'
+import { Container, HabitsList, Habit } from '../AppPage'
+import { ButtonCheck, Content } from './style'
 import Header from '../Header'
 import Menu from '../Menu'
 import dayjs from 'dayjs'
@@ -45,7 +45,7 @@ function Today(){
     <Container>
       <Header/>
       <Content>
-        <h2 className='text'>{weekdays[dayjs().day()-1]}, {dayjs().format('DD')}/{dayjs().format('MM')}</h2>
+        <h2 className='text'>{weekdays[dayjs().day()-1]}, {dayjs().format('DD/MM')}</h2>
         <p className='habitsProgress'>Nenhum hábito concluído ainda</p>
         <HabitsList>
           {todaysHabits.map(habit => (

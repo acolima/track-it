@@ -1,6 +1,5 @@
 import styled from "styled-components"
 
-
 const Content = styled.div`
   padding-top: 70px;
 
@@ -13,6 +12,24 @@ const Content = styled.div`
 
     padding: 30px 20px 0 17px;
   }
+
+  .days{
+    display: flex;
+    gap: 4px;
+  }
+
+  .habitName{
+    font-family: 'Lexend Deca';
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 25px;
+    color: #666;
+  }
+
+  img{
+    width: 13px;
+    height: 15px;
+  }
 `
 
 const MyHabits = styled.div`
@@ -20,7 +37,7 @@ const MyHabits = styled.div`
   align-items: center;
   justify-content: space-between;
 
-  padding: 0 18px 0 17px;
+  padding: 28px 18px 0 17px;
 `
 
 const AddHabit = styled.button`
@@ -137,46 +154,6 @@ const ButtonCancel = styled.button`
   ${(props) => props.teste && 'pointer-events: none;'}
 `
 
-const HabitsList = styled.div`
-  padding-top: 20px;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`
-
-const Habit = styled.div`
-  width: 340px;
-  
-  border-radius: 5px;
-  margin-bottom: 10px;
-  padding: 14px;
-  
-  background-color: #fff;
-
-  display: flex;
-  justify-content: space-between;
-
-  .days{
-    display: flex;
-    gap: 4px;
-
-  }
-
-  .habitName{
-    font-family: 'Lexend Deca';
-    font-size: 20px;
-    font-weight: 400;
-    line-height: 25px;
-    color: #666;
-  }
-
-  img{
-    width: 13px;
-    height: 15px;
-  }
-`
-
 export {
   Content,
   MyHabits,
@@ -185,7 +162,5 @@ export {
   Input,
   WeekDay,
   ButtonSaveHabit, 
-  ButtonCancel,
-  HabitsList,
-  Habit
+  ButtonCancel
 }

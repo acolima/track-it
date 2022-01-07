@@ -17,11 +17,32 @@ const Container = styled.div`
     font-weight: 400;
     line-height: 29px;
     color: #126BA5;
-
-    padding-top: 28px;
   }
 `
 
+const HabitsList = styled.div`
+  padding-top: 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
+const Habit = styled.div`
+  width: 340px;
+  
+  border-radius: 5px;
+  margin-bottom: 10px;
+  padding: 14px;
+  
+  background-color: #fff;
+
+  display: flex;
+  justify-content: space-between;
+`
+
 export{
-  Container
+  Container,
+  HabitsList, 
+  Habit
 }

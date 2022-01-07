@@ -1,6 +1,6 @@
-import { Content, MyHabits, AddHabit, CreateHabit, Input, WeekDay, ButtonSaveHabit, ButtonCancel, HabitsList, Habit} from './style'
+import { Content, MyHabits, AddHabit, CreateHabit, Input, WeekDay, ButtonSaveHabit, ButtonCancel} from './style'
+import { Container, HabitsList, Habit } from "../AppPage"
 import { useState, useContext, useEffect } from "react"
-import { Container } from "../AppPage"
 import Header from "../Header"
 import Menu from "../Menu"
 import TokenContext from "../../contexts/TokenContext"
@@ -39,10 +39,6 @@ function Habits(){
     const promise = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits`, config)
 
     promise.then(response => setHabits(response.data))
-  }
-
-  function handleAddHabit(){
-    setAddHabit(true)
   }
 
   function handleSelectDay(id){
@@ -100,7 +96,7 @@ function Habits(){
       <Content>
         <MyHabits>
           <h2 className='text'>Meus hábitos</h2>
-          <AddHabit onClick={handleAddHabit}>+</AddHabit>
+          <AddHabit onClick={() => setAddHabit(true)}>+</AddHabit>
         </MyHabits>
         {addHabit && 
           <CreateHabit>
