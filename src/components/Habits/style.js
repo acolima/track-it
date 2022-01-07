@@ -154,7 +154,10 @@ const Habit = styled.div`
   
   background-color: #fff;
 
-  div{
+  display: flex;
+  justify-content: space-between;
+
+  .days{
     display: flex;
     gap: 4px;
 
@@ -168,6 +171,10 @@ const Habit = styled.div`
     color: #666;
   }
 
+  img{
+    width: 13px;
+    height: 15px;
+  }
 `
 
 export {

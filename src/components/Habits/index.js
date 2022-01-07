@@ -5,6 +5,7 @@ import Header from "../Header"
 import Menu from "../Menu"
 import TokenContext from "../../contexts/TokenContext"
 import axios from "axios"
+import deleteIcon from '../../assets/delete.png'
 
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Loader from "react-loader-spinner";
@@ -27,15 +28,15 @@ function Habits(){
   ])
 
   const {token} = useContext(TokenContext)
+  const config = {headers: {'Authorization': `Bearer ${token}`}}
 
+  
   useEffect(() => {
     renderPage()
   }, [])
 
   function renderPage(){
-    const promise = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits`,
-      {headers: {Authorization: `Bearer ${token}`}}
-    )
+    const promise = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits`, config)
 
     promise.then(response => setHabits(response.data))
   }
@@ -61,18 +62,16 @@ function Habits(){
     .map(day => day.dayId)
         
     const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits`, 
-      {name, days}, {headers: {'Authorization': `Bearer ${token}`}}
-    )
+      {name, days}, config)
 
-    promise.then(response => restore(response))
+    promise.then(response => reset())
     promise.catch(error => {
       if(name === '') alert("O campo 'nome' não pode ser vazio")
       setLoading(false)
     })
   }
 
-  function restore(response){
-    console.log(response.data)
+  function reset(){
     setAddHabit(false)
     setName('')
     setLoading(false)
@@ -82,6 +81,17 @@ function Habits(){
     const defaultWeekdays = [...weekdays]
     weekdays.map(day => day.selected = false)
     setWeekdays([...defaultWeekdays])
+  }
+
+  function handleDeleteHabit(id){
+    const confirmDelete = window.confirm('Deseja deletar esse hábito?')
+    
+    if(confirmDelete){
+      const promise = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`, config)
+
+      promise.then(response => renderPage())
+    }
+
   }
 
   return (
@@ -128,17 +138,20 @@ function Habits(){
           (<HabitsList>
             {habits.map(habit => (
               <Habit key={habit.id}>
-                <p className="habitName">{habit.name}</p>
                 <div>
-                  {weekdays.map(day =>
-                    <WeekDay 
+                  <p className="habitName">{habit.name}</p>
+                  <div className='days'>
+                    {weekdays.map(day =>
+                      <WeekDay 
                       key={day.dayId}  
                       selected={(habit.days.includes(day.dayId))}
-                    >
-                      {day.dayName}
-                    </WeekDay>
-                  )}  
+                      >
+                        {day.dayName}
+                      </WeekDay>
+                    )}  
+                  </div>
                 </div>
+                <img src={deleteIcon} alt='delete icon' onClick={() => handleDeleteHabit(habit.id)}/>
               </Habit>
             ))}
           </HabitsList>
