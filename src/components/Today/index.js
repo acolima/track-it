@@ -4,22 +4,25 @@ import Header from '../Header'
 import Menu from '../Menu'
 import dayjs from 'dayjs'
 import TokenContext from '../../contexts/TokenContext'
+import ProgressContext from '../../contexts/ProgressContext'
 import { useState, useContext, useEffect } from 'react'
 import axios from 'axios'
 import checkImage from '../../assets/check.png'
 
 function Today(){
   const [todaysHabits, setTodaysHabits] = useState([])
-  let doneHabits = 0
+  let habitsDone = 0
   let percentage = 0
   const weekdays = [
     'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'
   ]
 
-  doneHabits = (todaysHabits.filter(habit => habit.done === true)).length
+  habitsDone = (todaysHabits.filter(habit => habit.done === true)).length
 
 
   const {token} = useContext(TokenContext)
+  const {progress, setProgress} = useContext(ProgressContext)
+
   const config = {headers: {'Authorization': `Bearer ${token}`}}
 
   useEffect(() => {
@@ -40,23 +43,24 @@ function Today(){
     if(!isDone) endpointAPI = 'check'
     else endpointAPI = 'uncheck'
 
-    const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/${endpointAPI}`, true, config)
+    const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/${endpointAPI}`, {}, config)
     
-    promise.then(response => renderPage())
+    promise.then(() => renderPage())
     promise.catch(error => console.log(error.response.data))
   }
 
-  percentage = doneHabits*100/todaysHabits.length
+  percentage = Math.floor(habitsDone*100/todaysHabits.length)
+  setProgress(percentage)
 
   return (
     <Container>
       <Header/>
-      <Content progress={doneHabits}>
+      <Content habitsDone={habitsDone}>
         <div className='top'>
           <h2 className='text'>{weekdays[dayjs().day()-1]}, {dayjs().format('DD/MM')}</h2>
           <p className='habitsProgress'>
-            {doneHabits > 0 ? 
-              `${percentage}% dos hábitos concluídos`:
+            {habitsDone > 0 ? 
+              `${progress}% dos hábitos concluídos`:
               'Nenhum hábito concluído ainda'
             }
           </p>
@@ -84,7 +88,7 @@ function Today(){
           ))}
         </HabitsList>
       </Content>
-      <Menu percentage={percentage}/>
+      <Menu percentage={progress}/>
     </Container>
   )
 }

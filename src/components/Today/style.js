@@ -9,7 +9,7 @@ const Content = styled.div`
     font-size: 18px;
     font-weight: 400;
     line-height: 22px;
-    color: ${props => (props.progress > 0) ? '#8FC549': '#BABABA'};
+    color: ${props => (props.habitsDone > 0) ? '#8FC549': '#BABABA'};
   }
 
   .top{

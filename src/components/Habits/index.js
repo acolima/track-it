@@ -4,6 +4,7 @@ import { useState, useContext, useEffect } from "react"
 import Header from "../Header"
 import Menu from "../Menu"
 import TokenContext from "../../contexts/TokenContext"
+import ProgressContext from '../../contexts/ProgressContext'
 import axios from "axios"
 import deleteIcon from '../../assets/delete.png'
 
@@ -28,9 +29,10 @@ function Habits(){
   ])
 
   const {token} = useContext(TokenContext)
+  const {progress} = useContext(ProgressContext)
+
   const config = {headers: {'Authorization': `Bearer ${token}`}}
 
-  
   useEffect(() => {
     renderPage()
   }, [])
@@ -45,8 +47,7 @@ function Habits(){
     setButtonDisabled(false)
     const selectedDays = [...weekdays]
 
-    const day = weekdays.find((day) => day.dayId === id)
-    day.selected = !day.selected
+    weekdays[id].selected = !weekdays[id].selected
     setWeekdays([...selectedDays])
   }
 
@@ -154,7 +155,7 @@ function Habits(){
           )
         )}
       </Content>
-      <Menu/>
+      <Menu percentage={progress}/>
     </Container>
   )
 }

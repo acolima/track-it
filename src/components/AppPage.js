@@ -9,7 +9,7 @@ const Container = styled.div`
 
   overflow-y: scroll;
 
-  margin-bottom: 70px;
+  padding-bottom: 70px;
 
   .text{
     font-family: 'Lexend Deca';
