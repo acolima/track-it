@@ -8,28 +8,29 @@ import UserContext from './contexts/UserContext'
 import TokenContext from './contexts/TokenContext'
 import History from './components/History'
 import ProgressContext from './contexts/ProgressContext'
-import { useEffect } from 'react/cjs/react.development'
 
 
 function App() {
-  const [userImage, setUserImage] = useState(null)
-  const [token, setToken] = useState('')
-  const [progress, setProgress] = useState(0)
-
   const localToken = (localStorage.getItem('@trackit/token'))
   const localUserImage = (localStorage.getItem('@trackit/image'))
+  const [userImage, setUserImage] = useState(localUserImage)
+  const [token, setToken] = useState(localToken)
+  const [progress, setProgress] = useState(0)
 
-  useEffect(() => {
-    // if(localToken !== null) setToken(localToken)
+  function setLocalToken(token){
+    setToken(token)
+    localStorage.setItem('@trackit/token', token)
+  }
 
-    if(localUserImage !== null) setUserImage(localUserImage)
-
-  },[])
+  function setLocalUserImage(image){
+    setUserImage(image)
+    localStorage.setItem('@trackit/image', image)
+  }
 
   return (
     <BrowserRouter>
-      <UserContext.Provider value={{user: userImage, setUser: setUserImage}}>
-        <TokenContext.Provider value={{token, setToken}}>
+      <UserContext.Provider value={{userImage, setUserImage, setLocalUserImage}}>
+        <TokenContext.Provider value={{token, setToken, setLocalToken}}>
           <ProgressContext.Provider value={{progress, setProgress}}>
             <Routes>
               <Route path='/' element={<LoginPage/>}/>

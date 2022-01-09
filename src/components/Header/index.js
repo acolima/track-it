@@ -4,12 +4,12 @@ import UserContext from '../../contexts/UserContext'
 import { useContext } from 'react'
 
 function Header(){
-  const { user } = useContext(UserContext)
-
+  const { userImage } = useContext(UserContext)
+  
   return (
     <Container>
         <h1>Track It</h1>
-        <img src={user} alt="user profile pic" />
+        <img src={userImage} alt="user profile pic" />
     </Container>
   )
 }

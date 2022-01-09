@@ -21,8 +21,6 @@ function Today(){
   
   habitsDone = (todaysHabits.filter(habit => habit.done === true)).length
   
-  console.log("token na pagina hoje", token)
-
   const config = {headers: {'Authorization': `Bearer ${token}`}}
 
   useEffect(() => {

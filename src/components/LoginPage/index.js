@@ -17,8 +17,8 @@ function LoginPage(){
   const [disabled, setDisabled] = useState(false)
   let navigate = useNavigate()
   
-  const {setUser} = useContext(UserContext)
-  const {setToken} = useContext(TokenContext)
+  const {setLocalUserImage} = useContext(UserContext)
+  const {setLocalToken} = useContext(TokenContext)
 
   function handleSubmit(e){
     e.preventDefault()
@@ -31,14 +31,9 @@ function LoginPage(){
   }
 
   function handleLogin(response){
-    setUser(response.data.image)
-    localStorage.setItem('@trackit/image', response.data.image)
-    setToken(response.data.token)
-    localStorage.setItem('@trackit/token', response.data.token)
+    setLocalUserImage(response.data.image)
+    setLocalToken(response.data.token)
     navigate('/hoje')
-
-    console.log(response.data)
-    console.log("token em login", typeof response.data.token)
   }
 
   function handleError(){
