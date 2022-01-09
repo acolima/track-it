@@ -1,14 +1,14 @@
 import { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import logo from '../../assets/logo.png'
+import logo from '../assets/logo.png'
 import { Container, Form, Input, Button, StyledLink } from './FormPage'
 
 import UserContext from '../contexts/UserContext'
 import TokenContext from '../contexts/TokenContext'
 
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-import Loader from "react-loader-spinner";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import Loader from "react-loader-spinner"
 
 
 function LoginPage(){

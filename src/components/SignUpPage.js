@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useState } from 'react'
 import Loader from 'react-loader-spinner'
 import { useNavigate } from 'react-router-dom'
-import logo from '../../assets/logo.png'
+import logo from '../assets/logo.png'
 
 import { Container, Form, Input, Button, StyledLink } from './FormPage'
 

@@ -1,4 +1,4 @@
-import { HabitsList, Habit } from '../AppPage'
+import { HabitsList, Habit, LoadingPage } from '../AppPage'
 import { ButtonCheck, Content, HabitInfos } from './style'
 import dayjs from 'dayjs'
 import TokenContext from '../../contexts/TokenContext'
@@ -6,6 +6,8 @@ import ProgressContext from '../../contexts/ProgressContext'
 import { useState, useContext, useEffect } from 'react'
 import axios from 'axios'
 import checkImage from '../../assets/check.png'
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import Loader from "react-loader-spinner"
 
 function Today(){
   const [todaysHabits, setTodaysHabits] = useState([])
@@ -46,6 +48,14 @@ function Today(){
     
     promise.then(() => renderPage())
     promise.catch(error => console.log(error.response.data))
+  }
+
+  if(todaysHabits.length === 0){
+    return (
+      <LoadingPage>
+        <Loader type="TailSpin" color="#FFF" height="90" width="90" />
+      </LoadingPage>
+    )
   }
 
   return (

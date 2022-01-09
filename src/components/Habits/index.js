@@ -1,12 +1,11 @@
 import { Content, MyHabits, AddHabit, CreateHabit, Input, WeekDay, ButtonSaveHabit, ButtonCancel} from './style'
-import { HabitsList, Habit } from "../AppPage"
+import { HabitsList, Habit, LoadingPage } from "../AppPage"
 import { useState, useContext, useEffect } from "react"
 import TokenContext from "../../contexts/TokenContext"
-import ProgressContext from '../../contexts/ProgressContext'
 import axios from "axios"
 import deleteIcon from '../../assets/delete.png'
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-import Loader from "react-loader-spinner";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import Loader from "react-loader-spinner"
 
 function Habits(){
   const [addHabit, setAddHabit] = useState(false)
@@ -14,8 +13,8 @@ function Habits(){
   const [buttonDisabled, setButtonDisabled] = useState(true)
   const [habits, setHabits] = useState([])
   const [name, setName] = useState('')
-  const config = {headers: {'Authorization': `Bearer ${token}`}}
   const {token} = useContext(TokenContext)
+  const config = {headers: {'Authorization': `Bearer ${token}`}}
   const [weekdays, setWeekdays] = useState([
     {dayId: 0, dayName: 'D', selected: false},
     {dayId: 1, dayName: 'S', selected: false},
@@ -81,7 +80,14 @@ function Habits(){
 
       promise.then(() => renderPage())
     }
+  }
 
+  if(habits.length === 0){
+    return (
+      <LoadingPage>
+        <Loader type="TailSpin" color="#FFF" height="90" width="90" />
+      </LoadingPage>
+    )
   }
 
   return (
