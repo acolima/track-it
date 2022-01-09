@@ -32,7 +32,6 @@ const HabitInfos = styled.p`
   .number{
     ${props => props.done && 'color: #8FC549;'}
     ${props => props.highest && 'color: #8FC549;'}
-
   }
 `
 

@@ -4,7 +4,7 @@ import Loader from 'react-loader-spinner'
 import { useNavigate } from 'react-router-dom'
 import logo from '../../assets/logo.png'
 
-import { Container, Form, Input, Button, StyledLink } from '../FormPage'
+import { Container, Form, Input, Button, StyledLink } from './FormPage'
 
 function SignUpPage(){
   const [email, setEmail] = useState("")
