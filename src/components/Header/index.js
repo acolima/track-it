@@ -9,7 +9,7 @@ function Header(){
   return (
     <Container>
         <h1>Track It</h1>
-        <img src={user.image} alt="user profile pic" />
+        <img src={user} alt="user profile pic" />
     </Container>
   )
 }
@@ -47,6 +47,7 @@ const Container = styled.div`
     border-radius: 98.5px;
 
     background-color: #fff;
+    object-fit: cover;
   }
 `
 

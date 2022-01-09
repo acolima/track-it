@@ -16,7 +16,7 @@ function History(){
         <h2 className='text'>Histórico</h2>
         <p>Em breve você poderá ver o histórico dos seus hábitos aqui!</p>
       </Content>
-      <Menu percentage={progress}/>
+      <Menu percentageBar={progress}/>
     </Container>
   )
 }

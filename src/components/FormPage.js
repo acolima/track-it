@@ -49,7 +49,11 @@ const Input = styled.input`
     line-height: 25px;
 
     cursor: text;
-  }  
+  } 
+
+  :focus{
+    border: 2px solid darkgray;
+  }
 `
 
 const Button = styled.button`

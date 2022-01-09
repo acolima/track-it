@@ -106,6 +106,10 @@ const Input = styled.input`
     line-height: 25px;
     color: #DBDBDB;
   }
+
+  :focus{
+    border: 2px solid darkgray;
+  }
 `
 
 const WeekDay = styled.button`

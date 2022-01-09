@@ -27,19 +27,25 @@ function LoginPage(){
     const promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login', { email, password})
 
     promise.then((response) => handleLogin(response))
-    promise.catch((error) => handleError())
+    promise.catch(() => handleError())
   }
 
   function handleLogin(response){
-    setUser(response.data)
+    setUser(response.data.image)
+    localStorage.setItem('@trackit/image', response.data.image)
     setToken(response.data.token)
+    localStorage.setItem('@trackit/token', response.data.token)
     navigate('/hoje')
+
+    console.log(response.data)
+    console.log("token em login", typeof response.data.token)
   }
 
   function handleError(){
     alert("Nome de usuário e/ou senha inválidos")
     setDisabled(false)
   }
+
 
   return(
     <Container>

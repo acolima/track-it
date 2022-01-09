@@ -13,15 +13,15 @@ function Today(){
   const [todaysHabits, setTodaysHabits] = useState([])
   let habitsDone = 0
   let percentage = 0
-  const weekdays = [
-    'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'
-  ]
+  const weekdays = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']
 
-  habitsDone = (todaysHabits.filter(habit => habit.done === true)).length
-
-
+  
   const {token} = useContext(TokenContext)
   const {progress, setProgress} = useContext(ProgressContext)
+  
+  habitsDone = (todaysHabits.filter(habit => habit.done === true)).length
+  
+  console.log("token na pagina hoje", token)
 
   const config = {headers: {'Authorization': `Bearer ${token}`}}
 
@@ -32,9 +32,7 @@ function Today(){
   function renderPage(){
     const promise = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today`, config)
     
-    promise.then(response => {
-      setTodaysHabits(response.data)
-    })
+    promise.then(response => setTodaysHabits(response.data))
   }
 
   function handleCheckHabit(id, isDone){
@@ -52,12 +50,14 @@ function Today(){
   percentage = Math.floor(habitsDone*100/todaysHabits.length)
   setProgress(percentage)
 
+ 
+
   return (
     <Container>
       <Header/>
       <Content habitsDone={habitsDone}>
         <div className='top'>
-          <h2 className='text'>{weekdays[dayjs().day()-1]}, {dayjs().format('DD/MM')}</h2>
+          <h2 className='text'>{weekdays[dayjs().day()]}, {dayjs().format('DD/MM')}</h2>
           <p className='habitsProgress'>
             {habitsDone > 0 ? 
               `${progress}% dos hábitos concluídos`:
@@ -72,13 +72,13 @@ function Today(){
                 <HabitInfos>{habit.name}</HabitInfos>
                 <HabitInfos done={habit.done}>
                   <span className="sequence">Sequência atual: </span> 
-                  <span className="sequence number">{habit.currentSequence} dias</span>
+                  <span className="sequence number">{habit.currentSequence} {habit.currentSequence === 1? 'dia' : 'dias'}</span>
                 </HabitInfos>
                 <HabitInfos 
                   highest={habit.currentSequence === habit.highestSequence && habit.currentSequence !== 0}
                 >{/* arrumar isso pq tá muito feio assim*/}
                   <span className="sequence">Seu recorde: </span>
-                  <span className="sequence number">{habit.highestSequence} dias</span>
+                  <span className="sequence number">{habit.highestSequence} {habit.highestSequence === 1? 'dia' : 'dias'}</span>
                 </HabitInfos>
               </div>
               <ButtonCheck onClick={() => handleCheckHabit(habit.id, habit.done)} done={habit.done}>
@@ -88,7 +88,7 @@ function Today(){
           ))}
         </HabitsList>
       </Content>
-      <Menu percentage={progress}/>
+      <Menu percentageBar={progress}/>
     </Container>
   )
 }

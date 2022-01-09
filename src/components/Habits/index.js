@@ -155,7 +155,7 @@ function Habits(){
           )
         )}
       </Content>
-      <Menu percentage={progress}/>
+      <Menu percentageBar={progress}/>
     </Container>
   )
 }
