@@ -12,7 +12,7 @@ const Container = styled.div`
   align-items: center;
   gap: 25px;
   
-  img{
+  .logo{
     width: 180px;
     height: 178px;
     
@@ -27,6 +27,19 @@ const Form = styled.form`
   gap: 6px;
   
   width: 303px;
+
+  .showPassword{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .showPassword > img{
+
+    width: 30px;
+    height: 30px;
+  }
 `
 
 const Input = styled.input`

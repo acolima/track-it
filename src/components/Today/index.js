@@ -14,7 +14,6 @@ function Today(){
   let habitsDone = 0
   let percentage = 0
   const weekdays = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']
-
   
   const {token} = useContext(TokenContext)
   const {progress, setProgress} = useContext(ProgressContext)
@@ -50,13 +49,13 @@ function Today(){
     promise.catch(error => console.log(error.response.data))
   }
 
-  if(todaysHabits.length === 0){
-    return (
-      <LoadingPage>
-        <Loader type="TailSpin" color="#FFF" height="90" width="90" />
-      </LoadingPage>
-    )
-  }
+  // if(todaysHabits.length === 0){
+  //   return (
+  //     <LoadingPage>
+  //       <Loader type="TailSpin" color="#FFF" height="90" width="90" />
+  //     </LoadingPage>
+  //   )
+  // }
 
   return (
     <Content habitsDone={habitsDone}>
@@ -69,28 +68,33 @@ function Today(){
           }
         </p>
       </div>
-      <HabitsList>
-        {todaysHabits.map(habit => (
-          <Habit key={habit.id}>
-            <div>
-              <HabitInfos>{habit.name}</HabitInfos>
-              <HabitInfos done={habit.done}>
-                <span className="sequence">Sequência atual: </span> 
-                <span className="sequence number">{habit.currentSequence} {habit.currentSequence === 1? 'dia' : 'dias'}</span>
-              </HabitInfos>
-              <HabitInfos 
-                highest={habit.currentSequence === habit.highestSequence && habit.currentSequence !== 0}
-              >{/* arrumar isso pq tá muito feio assim*/}
-                <span className="sequence">Seu recorde: </span>
-                <span className="sequence number">{habit.highestSequence} {habit.highestSequence === 1? 'dia' : 'dias'}</span>
-              </HabitInfos>
-            </div>
-            <ButtonCheck onClick={() => handleCheckHabit(habit.id, habit.done)} done={habit.done}>
-              <img src={checkImage} alt="check" />
-            </ButtonCheck>
-          </Habit>
-        ))}
-      </HabitsList>
+
+      {(todaysHabits.length === 0) ?
+        (<LoadingPage>
+          <Loader type="TailSpin" color="#FFF" height="90" width="90" />
+        </LoadingPage>):
+        (
+          <HabitsList>
+          {todaysHabits.map(habit => (
+            <Habit key={habit.id}>
+              <div>
+                <HabitInfos>{habit.name}</HabitInfos>
+                <HabitInfos done={habit.done}>
+                  <span className="sequence">Sequência atual: </span> 
+                  <span className="sequence number">{habit.currentSequence} {habit.currentSequence === 1? 'dia' : 'dias'}</span>
+                </HabitInfos>
+                <HabitInfos highest={habit.currentSequence === habit.highestSequence && habit.currentSequence !== 0 && habit.done}>
+                  <span className="sequence">Seu recorde: </span>
+                  <span className="sequence number">{habit.highestSequence} {habit.highestSequence === 1? 'dia' : 'dias'}</span>
+                </HabitInfos>
+              </div>
+              <ButtonCheck onClick={() => handleCheckHabit(habit.id, habit.done)} done={habit.done}>
+                <img src={checkImage} alt="check" />
+              </ButtonCheck>
+            </Habit>
+          ))}
+        </HabitsList>)
+      }
     </Content>
   )
 }

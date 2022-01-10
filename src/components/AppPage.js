@@ -45,7 +45,7 @@ const Habit = styled.div`
   }
 `
 const LoadingPage = styled.div`
-  height: 100vh;
+  height: 60vh;
 
   display: flex;
   align-items: center;
