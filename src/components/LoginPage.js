@@ -1,6 +1,5 @@
 import { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
 import logo from '../assets/logo.png'
 import showIcon from '../assets/show.png'
 import hideIcon from '../assets/hide.png'
@@ -11,6 +10,7 @@ import TokenContext from '../contexts/TokenContext'
 
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import Loader from "react-loader-spinner"
+import { login } from '../services/trackit'
 
 
 function LoginPage(){
@@ -28,7 +28,7 @@ function LoginPage(){
     e.preventDefault()
     setDisabled(true)
 
-    const promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login', { email, password})
+    const promise = login({email, password})
 
     promise.then((response) => handleLogin(response))
     promise.catch(() => handleError())

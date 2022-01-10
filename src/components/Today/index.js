@@ -4,10 +4,10 @@ import dayjs from 'dayjs'
 import TokenContext from '../../contexts/TokenContext'
 import ProgressContext from '../../contexts/ProgressContext'
 import { useState, useContext, useEffect } from 'react'
-import axios from 'axios'
 import checkImage from '../../assets/check.png'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import Loader from "react-loader-spinner"
+import { checkHabit, getTodaysHabits } from '../../services/trackit'
 
 function Today(){
   const [todaysHabits, setTodaysHabits] = useState([])
@@ -32,8 +32,7 @@ function Today(){
   }, [])
   
   function renderPage(){
-    const promise = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today`, config)
-    
+    const promise = getTodaysHabits(config)
     promise.then(response => setTodaysHabits(response.data))
   }
 
@@ -43,7 +42,7 @@ function Today(){
     if(!isDone) endpointAPI = 'check'
     else endpointAPI = 'uncheck'
 
-    const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/${endpointAPI}`, {}, config)
+    const promise = checkHabit(id, endpointAPI, config)
     
     promise.then(() => renderPage())
     promise.catch(error => console.log(error.response.data))

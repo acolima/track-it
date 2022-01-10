@@ -2,10 +2,10 @@ import { Content, MyHabits, AddHabit, CreateHabit, Input, WeekDay, ButtonSaveHab
 import { HabitsList, Habit, LoadingPage } from "../AppPage"
 import { useState, useContext, useEffect } from "react"
 import TokenContext from "../../contexts/TokenContext"
-import axios from "axios"
 import deleteIcon from '../../assets/delete.png'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import Loader from "react-loader-spinner"
+import { deleteHabit, getHabits, saveHabit } from '../../services/trackit'
 
 function Habits(){
   const [addHabit, setAddHabit] = useState(false)
@@ -30,8 +30,7 @@ function Habits(){
   }, [])
 
   function renderPage(){
-    const promise = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits`, config)
-
+    const promise = getHabits(config)
     promise.then(response => setHabits(response.data))
   }
 
@@ -50,11 +49,10 @@ function Habits(){
     .filter((day) => day.selected === true)
     .map(day => day.dayId)
         
-    const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits`, 
-      {name, days}, config)
+    const promise = saveHabit(name, days, config)
 
-    promise.then(response => reset())
-    promise.catch(error => {
+    promise.then(() => reset())
+    promise.catch(() => {
       if(name === '') alert("O campo 'nome' não pode ser vazio")
       setLoading(false)
     })
@@ -76,8 +74,7 @@ function Habits(){
     const confirmDelete = window.confirm('Deseja deletar esse hábito?')
     
     if(confirmDelete){
-      const promise = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`, config)
-
+      const promise = deleteHabit(id, config)
       promise.then(() => renderPage())
     }
   }

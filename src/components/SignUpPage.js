@@ -1,9 +1,8 @@
-import axios from 'axios'
 import { useState } from 'react'
 import Loader from 'react-loader-spinner'
 import { useNavigate } from 'react-router-dom'
 import logo from '../assets/logo.png'
-
+import { signUp } from '../services/trackit'
 import { Container, Form, Input, Button, StyledLink } from './FormPage'
 
 function SignUpPage(){
@@ -17,15 +16,10 @@ function SignUpPage(){
   function handleSubmit(e){
     e.preventDefault()
     setDisabled(true)
+    
+    const promise = signUp({email, name, image, password})
 
-    const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up`, {
-      email,
-      name,
-      image,
-      password
-    })
-
-    promise.then((response) => navigate('/'))
+    promise.then(() => navigate('/'))
     promise.catch((error) => handleError(error))
   }
 
