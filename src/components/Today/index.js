@@ -13,7 +13,6 @@ import { checkHabit, getTodaysHabits } from '../../services/trackit'
 function Today(){
   const [todaysHabits, setTodaysHabits] = useState([])
   let habitsDone = 0
-  let percentage = 0
   const weekdays = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']
 
   const [loading, setLoading] = useState(true)
@@ -26,8 +25,7 @@ function Today(){
   const config = {headers: {'Authorization': `Bearer ${token}`}}
 
   if(todaysHabits.length !== 0){
-    percentage = Math.floor(habitsDone*100/todaysHabits.length)
-    setLocalProgress(percentage)
+    setLocalProgress(Math.floor(habitsDone*100/todaysHabits.length))
   }
 
   useEffect(() => {
@@ -77,6 +75,7 @@ function Today(){
               <div>
                 <HabitInfos>{habit.name}</HabitInfos>
                 <HabitInfos done={habit.done}>
+                  <span className="sequence">Sequência atual: </span>
                   <span className="sequence number">{habit.currentSequence} {habit.currentSequence === 1? 'dia' : 'dias'}</span>
                 </HabitInfos>
                 <HabitInfos highest={habit.currentSequence === habit.highestSequence && habit.currentSequence !== 0 && habit.done}>

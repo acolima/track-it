@@ -154,8 +154,6 @@ const ButtonCancel = styled.button`
   font-weight: 400;
   line-height: 20px;
   color: #52B6FF;
-
-  ${(props) => props.teste && 'pointer-events: none;'}
 `
 
 export {
