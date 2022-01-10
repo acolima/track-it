@@ -9,7 +9,7 @@ const Container = styled.div`
 
   overflow-y: scroll;
 
-  padding-bottom: 70px;
+  padding-bottom: 80px;
 
   .text{
     font-family: 'Lexend Deca';
@@ -44,17 +44,10 @@ const Habit = styled.div`
     width: 243px;
   }
 `
-const LoadingPage = styled.div`
-  height: 60vh;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`
 
 export{
   Container,
   HabitsList, 
   Habit,
-  LoadingPage
+  
 }

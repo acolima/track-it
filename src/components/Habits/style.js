@@ -144,8 +144,8 @@ const ButtonSaveHabit = styled.button`
   text-align: center;
   color: #fff;
 
-  ${(props) => (props.teste || props.disabled) && 'opacity: 0.7;'}
-  ${(props) => (props.teste || props.disabled) && 'pointer-events: none;'}
+  ${(props) => props.disabled && 'opacity: 0.7;'}
+  ${(props) => props.disabled && 'pointer-events: none;'}
 `
 
 const ButtonCancel = styled.button`

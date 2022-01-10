@@ -1,5 +1,6 @@
-import { HabitsList, Habit, LoadingPage } from '../AppPage'
+import { HabitsList, Habit } from '../AppPage'
 import { ButtonCheck, Content, HabitInfos } from './style'
+import LoadingPage from "../LoadingPage"
 import dayjs from 'dayjs'
 import TokenContext from '../../contexts/TokenContext'
 import ProgressContext from '../../contexts/ProgressContext'
@@ -14,9 +15,11 @@ function Today(){
   let habitsDone = 0
   let percentage = 0
   const weekdays = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']
+
+  const [loading, setLoading] = useState(true)
   
   const {token} = useContext(TokenContext)
-  const {progress, setProgress} = useContext(ProgressContext)
+  const {progress, setLocalProgress} = useContext(ProgressContext)
   
   habitsDone = (todaysHabits.filter(habit => habit.done === true)).length
   
@@ -24,7 +27,7 @@ function Today(){
 
   if(todaysHabits.length !== 0){
     percentage = Math.floor(habitsDone*100/todaysHabits.length)
-    setProgress(percentage)
+    setLocalProgress(percentage)
   }
 
   useEffect(() => {
@@ -33,7 +36,10 @@ function Today(){
   
   function renderPage(){
     const promise = getTodaysHabits(config)
-    promise.then(response => setTodaysHabits(response.data))
+    promise.then(response => {
+      setTodaysHabits(response.data)
+      setLoading(false)
+    })
   }
 
   function handleCheckHabit(id, isDone){
@@ -48,38 +54,29 @@ function Today(){
     promise.catch(error => console.log(error.response.data))
   }
 
-  // if(todaysHabits.length === 0){
-  //   return (
-  //     <LoadingPage>
-  //       <Loader type="TailSpin" color="#FFF" height="90" width="90" />
-  //     </LoadingPage>
-  //   )
-  // }
-
   return (
     <Content habitsDone={habitsDone}>
       <div className='top'>
         <h2 className='text'>{weekdays[dayjs().day()]}, {dayjs().format('DD/MM')}</h2>
-        <p className='habitsProgress'>
+      </div>
+
+      {(loading) ?
+        (<LoadingPage>
+          <Loader type="TailSpin" color="#FFF" height="90" width="90" />
+        </LoadingPage>):
+        (<>
+          <p className='habitsProgress'>
           {habitsDone > 0 ? 
             `${progress}% dos hábitos concluídos`:
             'Nenhum hábito concluído ainda'
           }
-        </p>
-      </div>
-
-      {(todaysHabits.length === 0) ?
-        (<LoadingPage>
-          <Loader type="TailSpin" color="#FFF" height="90" width="90" />
-        </LoadingPage>):
-        (
+          </p>
           <HabitsList>
           {todaysHabits.map(habit => (
             <Habit key={habit.id}>
               <div>
                 <HabitInfos>{habit.name}</HabitInfos>
                 <HabitInfos done={habit.done}>
-                  <span className="sequence">Sequência atual: </span> 
                   <span className="sequence number">{habit.currentSequence} {habit.currentSequence === 1? 'dia' : 'dias'}</span>
                 </HabitInfos>
                 <HabitInfos highest={habit.currentSequence === habit.highestSequence && habit.currentSequence !== 0 && habit.done}>
@@ -92,7 +89,8 @@ function Today(){
               </ButtonCheck>
             </Habit>
           ))}
-        </HabitsList>)
+        </HabitsList>
+        </>)
       }
     </Content>
   )

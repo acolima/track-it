@@ -37,6 +37,11 @@ function signUp(userInfo){
   return promise
 }
 
+function getHabitsHistory(config){
+  const promise = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/history/daily`, config)
+  return promise
+}
+
 export {
   getHabits, 
   saveHabit,
@@ -44,5 +49,6 @@ export {
   getTodaysHabits,
   checkHabit,
   login,
-  signUp
+  signUp,
+  getHabitsHistory
 }

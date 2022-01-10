@@ -1,5 +1,6 @@
 import { Content, MyHabits, AddHabit, CreateHabit, Input, WeekDay, ButtonSaveHabit, ButtonCancel} from './style'
-import { HabitsList, Habit, LoadingPage } from "../AppPage"
+import { HabitsList, Habit } from "../AppPage"
+import LoadingPage from '../LoadingPage'
 import { useState, useContext, useEffect } from "react"
 import TokenContext from "../../contexts/TokenContext"
 import deleteIcon from '../../assets/delete.png'
@@ -13,6 +14,7 @@ function Habits(){
   const [buttonDisabled, setButtonDisabled] = useState(true)
   const [habits, setHabits] = useState([])
   const [name, setName] = useState('')
+  const [loadingPage, setLoadingPage] = useState(true)
   const {token} = useContext(TokenContext)
   const config = {headers: {'Authorization': `Bearer ${token}`}}
   const [weekdays, setWeekdays] = useState([
@@ -31,7 +33,10 @@ function Habits(){
 
   function renderPage(){
     const promise = getHabits(config)
-    promise.then(response => setHabits(response.data))
+    promise.then(response => {
+      setHabits(response.data)
+      setLoadingPage(false)
+    })
   }
 
   function handleSelectDay(id){
@@ -79,14 +84,6 @@ function Habits(){
     }
   }
 
-  if(habits.length === 0){
-    return (
-      <LoadingPage>
-        <Loader type="TailSpin" color="#FFF" height="90" width="90" />
-      </LoadingPage>
-    )
-  }
-
   return (
     <Content>
       <MyHabits>
@@ -95,11 +92,8 @@ function Habits(){
       </MyHabits>
       {addHabit && 
         <CreateHabit>
-          <Input 
-            type="text" 
-            placeholder="nome do hábito"
-            onChange={e => setName(e.target.value)}
-            value={name}
+          <Input type="text" placeholder="nome do hábito" 
+            onChange={e => setName(e.target.value)}value={name}
             loadingInput={loading}
           />
           <div className='days'>
@@ -111,10 +105,7 @@ function Habits(){
           </div>
           <div className='buttons'>
             <ButtonCancel onClick={() => setAddHabit(false)} loadingButton={loading}>Cancelar</ButtonCancel>
-            <ButtonSaveHabit 
-              onClick={handleSaveHabit} 
-              loadingButton={loading}
-              disabled={buttonDisabled}>
+            <ButtonSaveHabit onClick={handleSaveHabit} loadingButton={loading} disabled={buttonDisabled}>
               {loading ?
                 <Loader type="ThreeDots" color="#FFF" height="30" width="30" /> :
                 'Salvar'
@@ -124,30 +115,31 @@ function Habits(){
         </CreateHabit>
       }
       
-      {((habits.length === 0) ?
-        <p className='emptyList'>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>:
-        (<HabitsList>
-          {habits.map(habit => (
-            <Habit key={habit.id}>
-              <div>
-                <p className="habitName">{habit.name}</p>
-                <div className='days'>
-                  {weekdays.map(day =>
-                    <WeekDay 
-                    key={day.dayId}  
-                    selected={(habit.days.includes(day.dayId))}
-                    >
-                      {day.dayName}
-                    </WeekDay>
-                  )}  
+      {(loadingPage) ?
+        <LoadingPage/>:
+        (habits.length === 0 ?
+          <p className='emptyList'>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>:
+          (<HabitsList>
+            {habits.map(habit => (
+              <Habit key={habit.id}>
+                <div>
+                  <p className="habitName">{habit.name}</p>
+                  <div className='days'>
+                    {weekdays.map(day =>
+                      <WeekDay key={day.dayId} selected={(habit.days.includes(day.dayId))}>
+                        {day.dayName}
+                      </WeekDay>
+                    )}  
+                  </div>
                 </div>
-              </div>
-              <img src={deleteIcon} alt='delete icon' onClick={() => handleDeleteHabit(habit.id)}/>
-            </Habit>
-          ))}
-        </HabitsList>
+                <img src={deleteIcon} alt='delete icon' onClick={() => handleDeleteHabit(habit.id)}/>
+              </Habit>
+            ))}
+          </HabitsList>
+          )
         )
-      )}
+      }
+     
     </Content>
   )
 }

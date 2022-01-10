@@ -10,6 +10,7 @@ const Content = styled.div`
     font-weight: 400;
     line-height: 22px;
     color: ${props => (props.habitsDone > 0) ? '#8FC549': '#BABABA'};
+    padding-left: 17px;
   }
 
   .top{
