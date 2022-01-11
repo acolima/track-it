@@ -6,9 +6,9 @@ import TokenContext from "../../contexts/TokenContext"
 import deleteIcon from '../../assets/delete.png'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import Loader from "react-loader-spinner"
-import { deleteHabit, getHabits, saveHabit } from '../../services/trackit'
+import { deleteHabit, getHabits, getTodaysHabits, saveHabit } from '../../services/trackit'
 
-function Habits(){
+function Habits({setTodaysHabits}){
   const [addHabit, setAddHabit] = useState(false)
   const [loading, setLoading] = useState(false)
   const [buttonDisabled, setButtonDisabled] = useState(true)
@@ -62,13 +62,14 @@ function Habits(){
       setLoading(false)
     })
   }
-
+  
   function reset(){
     setAddHabit(false)
     setName('')
     setLoading(false)
     setHabits([...habits])
     renderPage()
+    loadTodaysHabits()
 
     const defaultWeekdays = [...weekdays]
     weekdays.map(day => day.selected = false)
@@ -80,8 +81,18 @@ function Habits(){
     
     if(confirmDelete){
       const promise = deleteHabit(id, config)
-      promise.then(() => renderPage())
+      promise.then(() => {
+        renderPage()
+        loadTodaysHabits()
+      })
     }
+  }
+
+  function loadTodaysHabits(){
+    const promise = getTodaysHabits(config)
+    promise.then(response => {
+      setTodaysHabits(response.data)
+    })
   }
 
   return (

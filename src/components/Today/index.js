@@ -2,31 +2,21 @@ import { HabitsList, Habit } from '../AppPage'
 import { ButtonCheck, Content, HabitInfos } from './style'
 import LoadingPage from "../LoadingPage"
 import dayjs from 'dayjs'
+import 'dayjs/locale/pt-br'
 import TokenContext from '../../contexts/TokenContext'
-import ProgressContext from '../../contexts/ProgressContext'
 import { useState, useContext, useEffect } from 'react'
 import checkImage from '../../assets/check.png'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import Loader from "react-loader-spinner"
 import { checkHabit, getTodaysHabits } from '../../services/trackit'
 
-function Today(){
-  const [todaysHabits, setTodaysHabits] = useState([])
-  let habitsDone = 0
-  const weekdays = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']
-
+function Today({progress, todaysHabits, setTodaysHabits}){
   const [loading, setLoading] = useState(true)
-  
+  let habitsDone = 0
   const {token} = useContext(TokenContext)
-  const {progress, setLocalProgress} = useContext(ProgressContext)
+  const config = {headers: {'Authorization': `Bearer ${token}`}}
   
   habitsDone = (todaysHabits.filter(habit => habit.done === true)).length
-  
-  const config = {headers: {'Authorization': `Bearer ${token}`}}
-
-  if(todaysHabits.length !== 0){
-    setLocalProgress(Math.floor(habitsDone*100/todaysHabits.length))
-  }
 
   useEffect(() => {
     renderPage()
@@ -55,7 +45,7 @@ function Today(){
   return (
     <Content habitsDone={habitsDone}>
       <div className='top'>
-        <h2 className='text'>{weekdays[dayjs().day()]}, {dayjs().format('DD/MM')}</h2>
+        <h2 className='text'>{dayjs().locale('pt-br').format('dddd, DD/MM')}</h2>
       </div>
 
       {(loading) ?

@@ -55,8 +55,9 @@ const Input = styled.input`
   background-color: ${(props) => props.disabledForm ? '#f2f2f2' : '#fff'};
   ${(props) => props.disabledForm && 'pointer-events: none;'}
 
+  font-family: 'Lexend Deca';
+
   ::placeholder{
-    font-family: 'Lexend Deca';
     font-size: 20px;
     font-weight: 400;
     line-height: 25px;

@@ -5,13 +5,13 @@ import 'react-circular-progressbar/dist/styles.css'
 import { Link } from 'react-router-dom'
 
 
-function Menu({percentageBar}){
+function Menu({progress}){
   return(
     <Container>
       <Button to='/habitos'>Hábitos</Button>
       <TodayButton to='/hoje'>
         <CircularProgressbar 
-          value={parseInt(percentageBar)}
+          value={parseInt(progress)}
           text={'Hoje'}
           background={'true'}
           strokeWidth={'8'}
