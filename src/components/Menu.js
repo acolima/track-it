@@ -37,6 +37,7 @@ const Container = styled.div`
   background-color: #fff;
 
   position: fixed;
+  z-index: 1;
   bottom: 0;
   left: 0;
 

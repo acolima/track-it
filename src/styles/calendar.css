@@ -8,7 +8,7 @@
 }
 
 .react-calendar {
-  width: 80%;
+  width: 100%;
 
   background: white;
 
@@ -117,7 +117,6 @@
 
 .complete {
   background-color: #8cc655;
-  border-radius: 50%;
 }
 
 .incomplete {
