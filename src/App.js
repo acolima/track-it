@@ -9,8 +9,8 @@ import Page from './components/Page'
 
 function App() {
   const localToken = (localStorage.getItem('@trackit/token'))
-  const localUserImage = (localStorage.getItem('@trackit/image'))
-  const [userImage, setUserImage] = useState(localUserImage)
+  const localUser = (JSON.parse(localStorage.getItem('@trackit/user')))
+  const [user, setUser] = useState(localUser)
   const [token, setToken] = useState(localToken)
 
   function setLocalToken(token){
@@ -18,15 +18,15 @@ function App() {
     localStorage.setItem('@trackit/token', token)
   }
 
-  function setLocalUserImage(image){
-    setUserImage(image)
-    localStorage.setItem('@trackit/image', image)
+  function setLocalUser(user){
+    setUser(user)
+    localStorage.setItem('@trackit/user', user)
   }
 
   return (
     <BrowserRouter>
-      <UserContext.Provider value={{userImage, setUserImage, setLocalUserImage}}>
-        <TokenContext.Provider value={{token, setToken, setLocalToken}}>
+      <UserContext.Provider value={{userImage: user, setUserImage: setUser, setLocalUser: setLocalUser, localUser: localUser}}>
+        <TokenContext.Provider value={{token, setToken, setLocalToken, localToken: localToken}}>
           <Routes>
             <Route path='/' element={<LoginPage/>}/>
             <Route path='/cadastro' element={<SignUpPage/>}/>

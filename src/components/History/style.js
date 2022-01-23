@@ -1,9 +1,8 @@
 import styled from "styled-components";
 
 const Content = styled.div`
-  padding: 70px 0 0 17px;
+  padding: 70px 0 30px 17px;
   margin-top: 28px;
-
 
   p{
     font-family: 'Lexend Deca';
@@ -26,7 +25,7 @@ const Content = styled.div`
 `
 
 const HabitBox = styled.div`
-  background-color: #f2f2f2;
+  background-color: #fff;
   border: 2px solid darkgray;
   border-radius: 5px;
 
@@ -42,12 +41,13 @@ const HabitBox = styled.div`
   left: 10px; 
   
   overflow-y: scroll;
+  
+  color: #666;
 
   .date{
     font-family: 'Lexend Deca';
     font-size: 24px; 
     text-align: center;
-    color: #666;
 
     padding: 10px;
     flex: 1;
@@ -68,7 +68,7 @@ const HabitBox = styled.div`
   }
 `
 const HabitStatus = styled.div`
-  border: 2px solid ${props => props.done ? '#8cc655' : '#ea5766'};
+  background-color: ${props => props.done ? 'rgba(140,198,85,0.5)' : 'rgba(234,87,102,0.5)'};
 
   width: 90%;
 
@@ -77,9 +77,7 @@ const HabitStatus = styled.div`
   padding: 10px;
 
   font-family: 'Lexend Deca';
-  font-size: 20px;
-  
-
+  font-size: 18px;
 `
 
 export{

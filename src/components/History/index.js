@@ -4,7 +4,7 @@ import { useContext, useState, useEffect} from "react"
 import '../../styles/calendar.css'
 import dayjs from 'dayjs'
 import TokenContext from "../../contexts/TokenContext"
-import { getHabitsHistory } from "../../services/trackit"
+import api from '../../services/trackit'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import Loader from "react-loader-spinner"
 import LoadingPage from "../LoadingPage"
@@ -19,10 +19,8 @@ function History() {
   const [habits, setHabits] = useState([])
   const today = dayjs().format('DD/MM/YYYY')
 
-  console.log(habits)
-
   useEffect(() => {
-    const promise = getHabitsHistory(config)
+    const promise = api.getHabitsHistory(config)
     promise.then(response => {
       setHabitsList(response.data)
       setLoading(false)
@@ -34,6 +32,7 @@ function History() {
 
     for(let i = 0; i < habitsList.length; i++){
       const habitsDay = habitsList[i]
+
       if(formatedDate !== habitsDay.day || formatedDate === today){
         continue
       }
@@ -63,7 +62,6 @@ function History() {
 
   function showHabits(date){
     const formatedDate = dayjs(date).format('DD/MM/YYYY')
-    console.log(formatedDate)
 
     const inHistory = habitsList.find(habit => habit.day === formatedDate)
 

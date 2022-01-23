@@ -2,8 +2,8 @@ import { useState } from 'react'
 import Loader from 'react-loader-spinner'
 import { useNavigate } from 'react-router-dom'
 import logo from '../assets/logo.png'
-import { signUp } from '../services/trackit'
-import { Container, Form, Input, Button, StyledLink } from './FormPage'
+import api from '../services/trackit'
+import { Container, Form, Input, Button, StyledLink, Logo } from './FormPage'
 
 function SignUpPage(){
   const [email, setEmail] = useState("")
@@ -17,7 +17,7 @@ function SignUpPage(){
     e.preventDefault()
     setDisabled(true)
     
-    const promise = signUp({email, name, image, password})
+    const promise = api.signUp({email, name, image, password})
 
     promise.then(() => navigate('/'))
     promise.catch((error) => handleError(error))
@@ -28,10 +28,9 @@ function SignUpPage(){
     setDisabled(false)
   }
 
-
   return(
     <Container>
-      <img src={logo} alt="logo" />
+      <Logo src={logo} alt="logo"></Logo>
       <Form onSubmit={handleSubmit}>
         <Input 
           type='email' 
@@ -58,7 +57,7 @@ function SignUpPage(){
           />
         <Input 
           type='text' 
-          placeholder='foto'
+          placeholder='url da foto'
           onChange={(e) => setImage(e.target.value)}
           value={image} 
           disabledForm={disabled}

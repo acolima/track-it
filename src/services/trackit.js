@@ -42,7 +42,7 @@ function getHabitsHistory(config){
   return promise
 }
 
-export {
+const api = {
   getHabits, 
   saveHabit,
   deleteHabit, 
@@ -52,3 +52,5 @@ export {
   signUp,
   getHabitsHistory
 }
+
+export default api

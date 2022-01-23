@@ -6,7 +6,7 @@ import TokenContext from "../../contexts/TokenContext"
 import deleteIcon from '../../assets/delete.png'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import Loader from "react-loader-spinner"
-import { deleteHabit, getHabits, getTodaysHabits, saveHabit } from '../../services/trackit'
+import api from '../../services/trackit'
 
 function Habits({setTodaysHabits}){
   const [addHabit, setAddHabit] = useState(false)
@@ -32,7 +32,7 @@ function Habits({setTodaysHabits}){
   }, [])
 
   function renderPage(){
-    const promise = getHabits(config)
+    const promise = api.getHabits(config)
     promise.then(response => {
       setHabits(response.data)
       setLoadingPage(false)
@@ -54,7 +54,7 @@ function Habits({setTodaysHabits}){
     .filter((day) => day.selected === true)
     .map(day => day.dayId)
         
-    const promise = saveHabit(name, days, config)
+    const promise = api.saveHabit(name, days, config)
 
     promise.then(() => reset())
     promise.catch(() => {
@@ -80,7 +80,7 @@ function Habits({setTodaysHabits}){
     const confirmDelete = window.confirm('Deseja deletar esse hábito?')
     
     if(confirmDelete){
-      const promise = deleteHabit(id, config)
+      const promise = api.deleteHabit(id, config)
       promise.then(() => {
         renderPage()
         loadTodaysHabits()
@@ -89,7 +89,7 @@ function Habits({setTodaysHabits}){
   }
 
   function loadTodaysHabits(){
-    const promise = getTodaysHabits(config)
+    const promise = api.getTodaysHabits(config)
     promise.then(response => {
       setTodaysHabits(response.data)
     })

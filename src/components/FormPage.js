@@ -11,13 +11,6 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 25px;
-  
-  .logo{
-    width: 180px;
-    height: 178px;
-    
-    margin: 68px 0 7px 0;
-  }
 `
 
 const Form = styled.form`
@@ -103,10 +96,19 @@ const StyledLink = styled(Link)`
   cursor: pointer;
 `
 
+const Logo = styled.img`
+  width: 180px;
+  height: 178px;
+
+  margin-top: 70px;
+
+`
+
 export {
   Container,
   Form,
   Input,
   Button,
   StyledLink, 
+  Logo
 }

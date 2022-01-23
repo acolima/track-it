@@ -95,8 +95,8 @@ const Input = styled.input`
   padding-left: 11px;
   border: 1px solid #D4D4D4;
 
-  background-color: ${(props) => props.loading && '#f2f2f2'};
-  ${(props) => props.loading && 'pointer-events: none;'}
+  background-color: ${(props) => props.loadingInput && '#f2f2f2'};
+  ${(props) => props.loadingInput && 'pointer-events: none;'}
 
 
   ::placeholder{

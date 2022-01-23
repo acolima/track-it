@@ -8,7 +8,7 @@ import { useState, useContext, useEffect } from 'react'
 import checkImage from '../../assets/check.png'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import Loader from "react-loader-spinner"
-import { checkHabit, getTodaysHabits } from '../../services/trackit'
+import api from '../../services/trackit'
 
 function Today({progress, todaysHabits, setTodaysHabits}){
   const [loading, setLoading] = useState(true)
@@ -23,7 +23,7 @@ function Today({progress, todaysHabits, setTodaysHabits}){
   }, [])
   
   function renderPage(){
-    const promise = getTodaysHabits(config)
+    const promise = api.getTodaysHabits(config)
     promise.then(response => {
       setTodaysHabits(response.data)
       setLoading(false)
@@ -36,7 +36,7 @@ function Today({progress, todaysHabits, setTodaysHabits}){
     if(!isDone) endpointAPI = 'check'
     else endpointAPI = 'uncheck'
 
-    const promise = checkHabit(id, endpointAPI, config)
+    const promise = api.checkHabit(id, endpointAPI, config)
     
     promise.then(() => renderPage())
     promise.catch(error => console.log(error.response.data))
