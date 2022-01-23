@@ -7,12 +7,12 @@ Deployment: https://track-it-ivory.vercel.app/
 ## Implemented features
 
 - Sign Up
-- Login
+- Login and logout
 - Create and delete habits
 - Check all the habits created
 - Check your daily habits
 - Mark habits as done
-- Check the habits history by day (soon)
+- Check the habits history by day
 
 
 ## Technologies
