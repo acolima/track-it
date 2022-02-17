@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 
-
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
@@ -45,9 +44,9 @@ const Habit = styled.div`
   }
 `
 
-export{
+export {
   Container,
-  HabitsList, 
+  HabitsList,
   Habit,
-  
+
 }

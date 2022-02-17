@@ -1,6 +1,6 @@
 import { Content, HabitBox, HabitStatus } from "./style"
 import Calendar from 'react-calendar'
-import { useContext, useState, useEffect} from "react"
+import { useContext, useState, useEffect } from "react"
 import '../../styles/calendar.css'
 import dayjs from 'dayjs'
 import TokenContext from "../../contexts/TokenContext"
@@ -11,8 +11,8 @@ import LoadingPage from "../LoadingPage"
 import closeIcon from '../../assets/close.png'
 
 function History() {
-  const {token} = useContext(TokenContext)
-  const config = {headers: {'Authorization': `Bearer ${token}`}}
+  const { token } = useContext(TokenContext)
+  const config = { headers: { 'Authorization': `Bearer ${token}` } }
   const [habitsList, setHabitsList] = useState([])
   const [loading, setLoading] = useState(true)
   const [showBox, setShowBox] = useState(false)
@@ -25,30 +25,30 @@ function History() {
       setHabitsList(response.data)
       setLoading(false)
     })
-  },[])
-  
+  }, [])
+
   function handleCompleteDays(date) {
     const formatedDate = dayjs(date).format('DD/MM/YYYY')
 
-    for(let i = 0; i < habitsList.length; i++){
+    for (let i = 0; i < habitsList.length; i++) {
       const habitsDay = habitsList[i]
 
-      if(formatedDate !== habitsDay.day || formatedDate === today){
+      if (formatedDate !== habitsDay.day || formatedDate === today) {
         continue
       }
-      else{
-        if(doneHabits(habitsDay.habits)) return 'complete'
+      else {
+        if (doneHabits(habitsDay.habits)) return 'complete'
         else return 'incomplete'
       }
     }
   }
 
-  function doneHabits(habitsDay){
+  function doneHabits(habitsDay) {
     let incomplete = false
-    
-    for(let i = 0; i < habitsDay.length; i++){
+
+    for (let i = 0; i < habitsDay.length; i++) {
       const habit = habitsDay[i]
-      if(!habit.done){
+      if (!habit.done) {
         incomplete = true
         break
       }
@@ -56,16 +56,16 @@ function History() {
         incomplete = false
       }
     }
-    if(incomplete) return false
+    if (incomplete) return false
     else return true
   }
 
-  function showHabits(date){
+  function showHabits(date) {
     const formatedDate = dayjs(date).format('DD/MM/YYYY')
 
     const inHistory = habitsList.find(habit => habit.day === formatedDate)
 
-    if(inHistory && formatedDate !== today) {
+    if (inHistory && formatedDate !== today) {
       setHabits(inHistory.habits)
       setShowBox(true)
     }
@@ -77,17 +77,17 @@ function History() {
       {(loading) ?
         (<LoadingPage>
           <Loader type="TailSpin" color="#FFF" height="90" width="90" />
-        </LoadingPage>):
+        </LoadingPage>) :
         <div className="calendar">
           <Calendar
-            tileClassName={({date}) => handleCompleteDays(date)}
+            tileClassName={({ date }) => handleCompleteDays(date)}
             onClickDay={(date) => showHabits(date)}
           />
-          {showBox && 
+          {showBox &&
             <HabitBox>
               <div>
                 <h1 className="date">{dayjs(habits[0].date).locale('pt-br').format(`DD/MMMM/YYYY`)}</h1>
-                <img className="closeButton" src={closeIcon} onClick={() => setShowBox(false)}/>
+                <img className="closeButton" alt="close button" src={closeIcon} onClick={() => setShowBox(false)} />
               </div>
               {habits.map(habit => (
                 <HabitStatus key={habit.id} done={habit.done}>{habit.name}</HabitStatus>
@@ -98,7 +98,7 @@ function History() {
       }
     </Content>
   )
-    
+
 }
 
 export default History

@@ -1,5 +1,5 @@
-import { Content, MyHabits, AddHabit, CreateHabit, Input, WeekDay, ButtonSaveHabit, ButtonCancel} from './style'
-import { HabitsList, Habit } from "../AppPage"
+import { Content, MyHabits, AddHabit, CreateHabit, Input, WeekDay, ButtonSaveHabit, ButtonCancel } from './style'
+import { HabitsList, Habit } from "../../components/AppPage"
 import LoadingPage from '../LoadingPage'
 import { useState, useContext, useEffect } from "react"
 import TokenContext from "../../contexts/TokenContext"
@@ -8,30 +8,30 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import Loader from "react-loader-spinner"
 import api from '../../services/trackit'
 
-function Habits({setTodaysHabits}){
+function Habits({ setTodaysHabits }) {
   const [addHabit, setAddHabit] = useState(false)
   const [loading, setLoading] = useState(false)
   const [buttonDisabled, setButtonDisabled] = useState(true)
   const [habits, setHabits] = useState([])
   const [name, setName] = useState('')
   const [loadingPage, setLoadingPage] = useState(true)
-  const {token} = useContext(TokenContext)
-  const config = {headers: {'Authorization': `Bearer ${token}`}}
+  const { token } = useContext(TokenContext)
+  const config = { headers: { 'Authorization': `Bearer ${token}` } }
   const [weekdays, setWeekdays] = useState([
-    {dayId: 0, dayName: 'D', selected: false},
-    {dayId: 1, dayName: 'S', selected: false},
-    {dayId: 2, dayName: 'T', selected: false},
-    {dayId: 3, dayName: 'Q', selected: false},
-    {dayId: 4, dayName: 'Q', selected: false},
-    {dayId: 5, dayName: 'S', selected: false},
-    {dayId: 6, dayName: 'S', selected: false},
+    { dayId: 0, dayName: 'D', selected: false },
+    { dayId: 1, dayName: 'S', selected: false },
+    { dayId: 2, dayName: 'T', selected: false },
+    { dayId: 3, dayName: 'Q', selected: false },
+    { dayId: 4, dayName: 'Q', selected: false },
+    { dayId: 5, dayName: 'S', selected: false },
+    { dayId: 6, dayName: 'S', selected: false },
   ])
 
   useEffect(() => {
     renderPage()
   }, [])
 
-  function renderPage(){
+  function renderPage() {
     const promise = api.getHabits(config)
     promise.then(response => {
       setHabits(response.data)
@@ -39,7 +39,7 @@ function Habits({setTodaysHabits}){
     })
   }
 
-  function handleSelectDay(id){
+  function handleSelectDay(id) {
     setButtonDisabled(false)
     const selectedDays = [...weekdays]
 
@@ -47,23 +47,23 @@ function Habits({setTodaysHabits}){
     setWeekdays([...selectedDays])
   }
 
-  function handleSaveHabit(){
+  function handleSaveHabit() {
     setLoading(true)
-    
+
     const days = weekdays
-    .filter((day) => day.selected === true)
-    .map(day => day.dayId)
-        
+      .filter((day) => day.selected === true)
+      .map(day => day.dayId)
+
     const promise = api.saveHabit(name, days, config)
 
     promise.then(() => reset())
     promise.catch(() => {
-      if(name === '') alert("O campo 'nome' não pode ser vazio")
+      if (name === '') alert("O campo 'nome' não pode ser vazio")
       setLoading(false)
     })
   }
-  
-  function reset(){
+
+  function reset() {
     setAddHabit(false)
     setName('')
     setLoading(false)
@@ -76,10 +76,10 @@ function Habits({setTodaysHabits}){
     setWeekdays([...defaultWeekdays])
   }
 
-  function handleDeleteHabit(id){
+  function handleDeleteHabit(id) {
     const confirmDelete = window.confirm('Deseja deletar esse hábito?')
-    
-    if(confirmDelete){
+
+    if (confirmDelete) {
       const promise = api.deleteHabit(id, config)
       promise.then(() => {
         renderPage()
@@ -88,7 +88,7 @@ function Habits({setTodaysHabits}){
     }
   }
 
-  function loadTodaysHabits(){
+  function loadTodaysHabits() {
     const promise = api.getTodaysHabits(config)
     promise.then(response => {
       setTodaysHabits(response.data)
@@ -101,10 +101,10 @@ function Habits({setTodaysHabits}){
         <h2 className='text'>Meus hábitos</h2>
         <AddHabit onClick={() => setAddHabit(true)}>+</AddHabit>
       </MyHabits>
-      {addHabit && 
+      {addHabit &&
         <CreateHabit>
-          <Input type="text" placeholder="nome do hábito" 
-            onChange={e => setName(e.target.value)}value={name}
+          <Input type="text" placeholder="nome do hábito"
+            onChange={e => setName(e.target.value)} value={name}
             loadingInput={loading}
           />
           <div className='days'>
@@ -125,11 +125,11 @@ function Habits({setTodaysHabits}){
           </div>
         </CreateHabit>
       }
-      
+
       {(loadingPage) ?
-        <LoadingPage/>:
+        <LoadingPage /> :
         (habits.length === 0 ?
-          <p className='emptyList'>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>:
+          <p className='emptyList'>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p> :
           (<HabitsList>
             {habits.map(habit => (
               <Habit key={habit.id}>
@@ -140,17 +140,17 @@ function Habits({setTodaysHabits}){
                       <WeekDay key={day.dayId} selected={(habit.days.includes(day.dayId))}>
                         {day.dayName}
                       </WeekDay>
-                    )}  
+                    )}
                   </div>
                 </div>
-                <img src={deleteIcon} alt='delete icon' onClick={() => handleDeleteHabit(habit.id)}/>
+                <img src={deleteIcon} alt='delete icon' onClick={() => handleDeleteHabit(habit.id)} />
               </Habit>
             ))}
           </HabitsList>
           )
         )
       }
-     
+
     </Content>
   )
 }

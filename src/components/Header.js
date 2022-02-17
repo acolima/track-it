@@ -3,26 +3,26 @@ import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import logoutIcon from './../assets/logout.png'
 
-function Header(){
+function Header() {
   const localUser = (JSON.parse(localStorage.getItem('@trackit/user')))
   const [logout, setLogout] = useState(false)
   let navigate = useNavigate()
 
-  function handleLogout(){
+  function handleLogout() {
     localStorage.clear()
     navigate("/")
   }
   return (
     <Container>
-        <h1>Track It</h1>
-        <Avatar 
-          src={localUser.image} 
-          alt="user profile pic" 
-          onClick={() => setLogout(true)}
-        />
-        {logout && 
+      <h1>Track It</h1>
+      <Avatar
+        src={localUser.image}
+        alt="user profile pic"
+        onClick={() => setLogout(true)}
+      />
+      {logout &&
         <Logout onClick={handleLogout}>
-          <img src={logoutIcon}/>
+          <img src={logoutIcon} alt="logout" />
           Sair
         </Logout>}
     </Container>
